@@ -1,20 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import 'reflect-metadata';
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, Text } from "react-native";
+import { initializeDatabse } from "./src/services/database";
+import { Routes } from './src/navigation';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [dbInitialized, setDbInitialized] = useState(false);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  useEffect(() => {
+    const setup = async () => {
+      await initializeDatabse();
+      setDbInitialized(true);
+    }
+
+    setup();
+  }, []);
+
+  if (!dbInitialized) {
+    return (
+      <SafeAreaView>
+        <Text>Carregando...</Text>
+      </SafeAreaView>
+    )
+  }
+  return <Routes />
+}
