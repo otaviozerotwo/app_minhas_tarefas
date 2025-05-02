@@ -10,36 +10,52 @@ import { useNavigation } from "@react-navigation/native";
 export function FormTask() {
   const navigation = useNavigation();
 
-  const [task, setTask] = useState('');
+  const [taskTitle, setTaskTitle] = useState('');
+  const [taskDueDate, setTaskDueDate] = useState('');
+  const [taskDescription, setTaskDescription] = useState('');
+  const [taskPriority, setTaskPriority] = useState('Baixa');
+  const [taskCategory, setTaskCategory] = useState('Pessoal');
 
-  const [prioridade, setPrioridade] = useState('Baixa');
-  const [categoria, setCategoria] = useState('Pessoal');
-
-  const prioridadeOptions = [
+  const priorityOptions = [
     { key: 'baixa', value: 'Baixa' },
     { key: 'media', value: 'Média' },
     { key: 'alta', value: 'Alta' },
   ];
 
-  const categoriaOptions = [
+  const categoryOptions = [
     { key: 'trabalho', value: 'Trabalho' },
     { key: 'pessoal', value: 'Pessoal' },
     { key: 'estudos', value: 'Estudos' },
   ];
 
-  async function handleNewTask(taskName: string) {
+  async function handleNewTask(
+    taskName: string, 
+    description: string, 
+    dueDate: string, 
+    priority: string, 
+    category: string
+  ) {
     if (!taskName.trim()) return;
 
     try {
       const newTask = taskRepository.create({
-        title: taskName,
+        title: taskName.trim(),
+        description: description.trim(),
+        dueDate: dueDate.trim(),
+        priority: priority.trim(),
+        category: category.trim(),
         status: 'pending',
       });
 
       await taskRepository.save(newTask);
 
       Keyboard.dismiss();
-      setTask('');
+      setTaskTitle('');
+      setTaskDescription('');
+      setTaskDueDate('');
+      setTaskPriority('');
+      setTaskCategory('');
+
       navigation.goBack();
 
     } catch (error) {
@@ -52,8 +68,8 @@ export function FormTask() {
       <Text style={styles.label}>Título da Tarefa</Text>
       <TextInput
         placeholder="Digite o título da tarefa"
-        value={task}
-        onChangeText={setTask}
+        value={taskTitle}
+        onChangeText={setTaskTitle}
         style={styles.input}
       />
 
@@ -62,30 +78,29 @@ export function FormTask() {
         placeholder="Adicione uma descrição"
         multiline
         numberOfLines={4}
-        // maxLength={40}
-        // value={}
-        // onChangeText={}
+        value={taskDescription}
+        onChangeText={setTaskDescription}
         textAlignVertical="top"
         style={styles.textArea}
       />
 
-      <DateInput />
+      <DateInput value={taskDueDate} onChange={setTaskDueDate}/>
       
       <CustomDropdown
         label="Prioridade"
-        data={prioridadeOptions}
-        selected={prioridade}
-        setSelected={setPrioridade}
+        data={priorityOptions}
+        selected={taskPriority}
+        setSelected={setTaskPriority}
       />
 
       <CustomDropdown
         label="Categoria"
-        data={categoriaOptions}
-        selected={categoria}
-        setSelected={setCategoria}
+        data={categoryOptions}
+        selected={taskCategory}
+        setSelected={setTaskCategory}
       />
 
-      <CustomButton onPress={() => handleNewTask(task)} label="Criar Tarefa" />
+      <CustomButton onPress={() => handleNewTask(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory)} label="Criar Tarefa" />
     </View>
   );
 }
