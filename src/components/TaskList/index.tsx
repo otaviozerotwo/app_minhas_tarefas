@@ -21,7 +21,7 @@ export function TaskList({ data, onToggle, onDelete, onEdit }: TaskListProps) {
           <CustomCheckBox 
             checked={checked}
             onToggle={() => onToggle(data)}
-            label={data.task}
+            label={data.title}
           />
         </View>
 

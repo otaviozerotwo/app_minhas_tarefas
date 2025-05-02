@@ -32,7 +32,7 @@ export function FormTask() {
 
     try {
       const newTask = taskRepository.create({
-        task: taskName,
+        title: taskName,
         status: 'pending',
       });
 

@@ -6,7 +6,7 @@ export class Task {
   id: number;
 
   @Column({ type: 'text' })
-  task: string;
+  title: string;
 
   @Column({ type: 'text', default: 'pending' })
   status: 'pending' | 'completed';
