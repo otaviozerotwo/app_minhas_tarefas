@@ -17,7 +17,7 @@ export function FormTask() {
   const [taskPriority, setTaskPriority] = useState('Baixa');
   const [taskCategory, setTaskCategory] = useState('Pessoal');
 
-  const [isoDateTime, setIsoDateTime] = useState<any>(null);
+  const [isoDateTime, setIsoDateTime] = useState(new Date().toISOString());
 
   const priorityOptions = [
     { key: 'baixa', value: 'Baixa' },
@@ -33,8 +33,13 @@ export function FormTask() {
 
   const handleChange = (value: string) => {
     setTaskDueDate(value);
-    const iso = convertToISOString(value);
-    setIsoDateTime(iso);
+
+    if (value) {
+      const iso = convertToISOString(value);
+      setIsoDateTime(iso);
+    } else {
+      setIsoDateTime('');
+    }
   };
 
   async function handleNewTask(
