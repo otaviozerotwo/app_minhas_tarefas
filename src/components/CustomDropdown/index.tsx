@@ -16,7 +16,7 @@ export function CustomDropdown({
   label
 }: CustomSelectProps) {
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <SelectList
         data={data}

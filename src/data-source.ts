@@ -6,7 +6,9 @@ export const AppDataSource = new DataSource({
   type: 'react-native',
   database: 'to_do_list.db',
   location: 'default',
-  synchronize: true,
+  // synchronize: true,
+  synchronize: false,
+  // dropSchema: true,
   logging: ['error', 'query', 'warn', 'info'],
   entities: [Task],
 });

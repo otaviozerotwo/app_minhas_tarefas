@@ -13,8 +13,9 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   containerCheckBoxTask: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   text: {
     color: '#000',
@@ -31,6 +32,10 @@ const styles = StyleSheet.create({
   },
   menuButtonText: {
     textAlign: 'center',
+  },
+  dueDateStyle: {
+    color: '#888',
+    marginLeft: 32
   },
 });
 

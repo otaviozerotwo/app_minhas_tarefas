@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Keyboard, Text, TextInput, View } from "react-native";
 import styles from "./styles";
-import { DateInput } from "../DateInput";
 import { CustomDropdown } from "../CustomDropdown";
 import { CustomButton } from "../CustomButton";
 import { taskRepository } from "../../repositories/taskRepository";
 import { useNavigation } from "@react-navigation/native";
+import { CustomDateTimeInput } from "../CustomDateTimeInput";
+import { convertToISOString } from "../../utils/convertToISOString";
 
 export function FormTask() {
   const navigation = useNavigation();
@@ -15,6 +16,8 @@ export function FormTask() {
   const [taskDescription, setTaskDescription] = useState('');
   const [taskPriority, setTaskPriority] = useState('Baixa');
   const [taskCategory, setTaskCategory] = useState('Pessoal');
+
+  const [isoDateTime, setIsoDateTime] = useState<any>(null);
 
   const priorityOptions = [
     { key: 'baixa', value: 'Baixa' },
@@ -28,10 +31,16 @@ export function FormTask() {
     { key: 'estudos', value: 'Estudos' },
   ];
 
+  const handleChange = (value: string) => {
+    setTaskDueDate(value);
+    const iso = convertToISOString(value);
+    setIsoDateTime(iso);
+  };
+
   async function handleNewTask(
     taskName: string, 
     description: string, 
-    dueDate: string, 
+    isoDateTime: any, 
     priority: string, 
     category: string
   ) {
@@ -41,7 +50,7 @@ export function FormTask() {
       const newTask = taskRepository.create({
         title: taskName.trim(),
         description: description.trim(),
-        dueDate: dueDate.trim(),
+        dueDate: isoDateTime.trim(),
         priority: priority.trim(),
         category: category.trim(),
         status: 'pending',
@@ -84,7 +93,8 @@ export function FormTask() {
         style={styles.textArea}
       />
 
-      <DateInput value={taskDueDate} onChange={setTaskDueDate}/>
+      <Text style={styles.label}>Data de Vencimento</Text>
+      <CustomDateTimeInput value={taskDueDate} onChange={handleChange} />
       
       <CustomDropdown
         label="Prioridade"
@@ -100,7 +110,7 @@ export function FormTask() {
         setSelected={setTaskCategory}
       />
 
-      <CustomButton onPress={() => handleNewTask(taskTitle, taskDescription, taskDueDate, taskPriority, taskCategory)} label="Criar Tarefa" />
+      <CustomButton onPress={() => handleNewTask(taskTitle, taskDescription, isoDateTime, taskPriority, taskCategory)} label="Criar Tarefa" />
     </View>
   );
 }

@@ -11,13 +11,13 @@ export class Task {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'text' })
   dueDate: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'text' })
   priority: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'text' })
   category: string;
 
   @Column({ type: 'text', default: 'pending' })

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "to_do_list_react_native",
-    "slug": "to_do_list_react_native",
+    "name": "to_do_list",
+    "slug": "to_do_list",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,7 +20,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.otaviozerotwo.to_do_list_react_native",
+      "package": "com.otaviozerotwo.to_do_list",
       "versionCode": 1,
       "permissions": []
     },
