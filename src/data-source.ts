@@ -1,14 +1,13 @@
 import 'reflect-metadata';
 import { DataSource } from "typeorm/browser";
 import { Task } from './entities/Task';
+import * as SQLite from 'expo-sqlite';
 
 export const AppDataSource = new DataSource({
-  type: 'react-native',
+  type: 'expo',
+  driver: SQLite,
   database: 'to_do_list.db',
-  location: 'default',
-  // synchronize: true,
-  synchronize: false,
-  // dropSchema: true,
-  logging: ['error', 'query', 'warn', 'info'],
+  synchronize: true,
+  logging: true,
   entities: [Task],
 });

@@ -2,7 +2,7 @@
   "expo": {
     "name": "to_do_list",
     "slug": "to_do_list_react_native",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,7 +21,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.otaviozerotwo.to_do_list",
-      "versionCode": 5,
+      "versionCode": 6,
       "permissions": []
     },
     "web": {
