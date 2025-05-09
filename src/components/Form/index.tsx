@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Keyboard, Text, TextInput, View } from "react-native";
 import styles from "./styles";
 import { CustomDropdown } from "../CustomDropdown";
@@ -7,17 +7,34 @@ import { taskRepository } from "../../repositories/taskRepository";
 import { useNavigation } from "@react-navigation/native";
 import { CustomDateTimeInput } from "../CustomDateTimeInput";
 import { convertToISOString } from "../../utils/convertToISOString";
+import { Task } from "../../entities/Task";
+import { format } from "date-fns";
 
-export function FormTask() {
+interface FormTaskProps {
+  existingTask?: Task | null;
+}
+
+export function FormTask({ existingTask }: FormTaskProps) {
   const navigation = useNavigation();
 
-  const [taskTitle, setTaskTitle] = useState('');
-  const [taskDueDate, setTaskDueDate] = useState('');
-  const [taskDescription, setTaskDescription] = useState('');
-  const [taskPriority, setTaskPriority] = useState('Baixa');
-  const [taskCategory, setTaskCategory] = useState('Pessoal');
+  const [taskTitle, setTaskTitle] = useState(existingTask?.title || '');
+  const [taskDueDate, setTaskDueDate] = useState(existingTask?.dueDate || '');
+  const [taskDescription, setTaskDescription] = useState(existingTask?.description || '');
+  const [taskPriority, setTaskPriority] = useState(existingTask?.priority || 'Baixa');
+  const [taskCategory, setTaskCategory] = useState(existingTask?.category || 'Pessoal');
 
   const [isoDateTime, setIsoDateTime] = useState(new Date().toISOString());
+
+  useEffect(() => {
+    if (existingTask) {
+      setTaskTitle(existingTask.title);
+      setTaskDescription(existingTask.description);
+      setTaskDueDate(format(new Date(existingTask.dueDate), 'dd/MM/yyyy HH:mm'));
+      setTaskPriority(existingTask.priority);
+      setTaskCategory(existingTask.category);
+      setIsoDateTime(existingTask.dueDate);
+    }
+  }, [existingTask]);
 
   const priorityOptions = [
     { key: 'baixa', value: 'Baixa' },
@@ -42,7 +59,7 @@ export function FormTask() {
     }
   };
 
-  async function handleNewTask(
+  async function handleSubmit(
     taskName: string, 
     description: string, 
     isoDateTime: any, 
@@ -52,28 +69,33 @@ export function FormTask() {
     if (!taskName.trim()) return;
 
     try {
-      const newTask = taskRepository.create({
-        title: taskName.trim(),
-        description: description.trim(),
-        dueDate: isoDateTime.trim(),
-        priority: priority.trim(),
-        category: category.trim(),
-        status: 'pending',
-      });
-
-      await taskRepository.save(newTask);
+      if (existingTask) {
+        const updatedTask = {
+          ...existingTask,
+          title: taskName.trim(),
+          description: description.trim(),
+          dueDate: isoDateTime.trim(),
+          priority: priority.trim(),
+          category: category.trim(),
+        };
+        await taskRepository.save(updatedTask);
+      } else {
+        const newTask = taskRepository.create({
+          title: taskName.trim(),
+          description: description.trim(),
+          dueDate: isoDateTime.trim(),
+          priority: priority.trim(),
+          category: category.trim(),
+          status: 'pending',
+        });
+        await taskRepository.save(newTask);
+      }
 
       Keyboard.dismiss();
-      setTaskTitle('');
-      setTaskDescription('');
-      setTaskDueDate('');
-      setTaskPriority('');
-      setTaskCategory('');
-
       navigation.goBack();
 
     } catch (error) {
-      console.error('Erro ao criar nova tarefa:', error);
+      console.error('Erro ao salvar tarefa:', error);
     }
   }
   
@@ -115,7 +137,9 @@ export function FormTask() {
         setSelected={setTaskCategory}
       />
 
-      <CustomButton onPress={() => handleNewTask(taskTitle, taskDescription, isoDateTime, taskPriority, taskCategory)} label="Criar Tarefa" />
+      <CustomButton 
+        onPress={() => handleSubmit(taskTitle, taskDescription, isoDateTime, taskPriority, taskCategory)} 
+        label={existingTask ? "Atualizar Tarefa" : "Criar Tarefa"} />
     </View>
   );
 }

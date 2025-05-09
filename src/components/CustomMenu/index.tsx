@@ -3,16 +3,24 @@ import { Entypo } from "@expo/vector-icons";
 import styles from "./styles";
 import { useRef, useState } from "react";
 import { CustomModal } from "../CustomModal";
+import { Task } from "../../entities/Task";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { NavigationParamList } from "../../@types/navigation";
 
 interface CustomMenuProps extends PressableProps {
   onDelete: () => void;
-  onEdit: () => void;
+  task: Task;
 }
 
-export function CustomMenu({ onDelete, onEdit }: CustomMenuProps) {
+type Navigation = NativeStackNavigationProp<NavigationParamList>;
+
+export function CustomMenu({ onDelete, task }: CustomMenuProps) {
   const [visible, setVisible] = useState(false);
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const ref = useRef(null);
+
+  const navigation = useNavigation<Navigation>();
 
   function handleOpenModal() {
     const handle = findNodeHandle(ref.current);
@@ -35,7 +43,7 @@ export function CustomMenu({ onDelete, onEdit }: CustomMenuProps) {
         visible={visible}
         onPress={() => setVisible(false)}
         onDelete={onDelete}
-        onEdit={onEdit}
+        onNavigationEdit={() => navigation.navigate('CreateTask', { id: task.id })}
         position={position}
       />
     </>

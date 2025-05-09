@@ -1,18 +1,17 @@
 import { PressableProps, Text, View } from "react-native";
-import { Task } from "../../@types/task";
 import styles from "./styles";
 import { CustomCheckBox } from "../CustomCheckBox";
 import { CustomMenu } from "../CustomMenu";
 import { formatDueDate } from "../../utils/formatDueDate";
+import { Task } from "../../entities/Task";
 
 interface TaskListProps extends PressableProps {
   data: Task;
   onToggle: (task: Task) => void;
   onDelete: (task: Task) => void;
-  onEdit: (task: Task) => void;
 }
 
-export function TaskList({ data, onToggle, onDelete, onEdit }: TaskListProps) {
+export function TaskList({ data, onToggle, onDelete }: TaskListProps) {
   const checked = data.status as 'pending' | 'completed';
 
   return (
@@ -30,7 +29,7 @@ export function TaskList({ data, onToggle, onDelete, onEdit }: TaskListProps) {
         </View>
 
         <CustomMenu 
-          onEdit={() => onEdit(data)}
+          task={data}
           onDelete={() => onDelete(data)}
         />
       </View>

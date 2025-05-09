@@ -1,4 +1,4 @@
 export type NavigationParamList = {
   Home: undefined;
-  CreateTask: undefined;
+  CreateTask: { id?: number };
 };

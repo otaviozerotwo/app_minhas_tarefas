@@ -21,8 +21,8 @@ export function RootStack() {
         options={({ navigation }) => ({
           header: () => (
             <Header
-              title='TO DO LIST'
-              onPress={() => navigation.navigate('CreateTask')}
+              title='Minhas Tarefas'
+              onPress={() => navigation.navigate('CreateTask', {})}
             />
           )
         })}

@@ -3,8 +3,8 @@ import { useFocusEffect } from "@react-navigation/native";
 import { FlatList } from "react-native";
 import { taskRepository } from "../../repositories/taskRepository";
 import { TaskList } from "../TaskList";
-import { Task } from "../../@types/task";
 import { useFindTasks } from "../../hooks/useFindTasks";
+import { Task } from "../../entities/Task";
 
 interface TasksProps {
   filter: 'all' | 'pending' | 'completed';
@@ -31,11 +31,6 @@ export function Tasks({ filter }: TasksProps) {
     await handleFindTasks();
   }
 
-  async function handleEdit(task: Task) {
-    // await taskRepository.save(task);
-    await handleFindTasks();
-  }
-
   useFocusEffect(
     useCallback(() => {
       handleFindTasks();
@@ -52,7 +47,6 @@ export function Tasks({ filter }: TasksProps) {
             data={item} 
             onToggle={handleToggle}
             onDelete={handleDelete}
-            onEdit={handleEdit}  
           />
         )}
       />

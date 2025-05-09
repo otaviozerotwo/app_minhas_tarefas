@@ -6,11 +6,11 @@ interface CustomModalProps extends ModalProps {
   visible: boolean;
   onPress: () => void;
   onDelete: () => void;
-  onEdit: () => void;
+  onNavigationEdit: () => void;
   position: { top: number; left: number };
 }
 
-export function CustomModal({ visible, onPress, onDelete, onEdit, position }: CustomModalProps) {
+export function CustomModal({ visible, onPress, onDelete, onNavigationEdit, position }: CustomModalProps) {
   return (
     <Modal
       animationType="fade"
@@ -29,12 +29,11 @@ export function CustomModal({ visible, onPress, onDelete, onEdit, position }: Cu
           </View>
 
           <Pressable
-            disabled
             style={styles.optionButton}
-            onPress={() => { onEdit(); onPress(); }}
+            onPress={() => { onNavigationEdit(); onPress(); }}
           >
-            <Feather name="edit" size={16} color="#D4D4D4" />
-            <Text style={[styles.optionText, { color: '#D4D4D4', textDecorationLine: 'line-through' }]}>Editar</Text>
+            <Feather name="edit" size={16} color="#000" />
+            <Text style={styles.optionText}>Editar</Text>
           </Pressable>
         
         
