@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "to_do_list",
-    "slug": "to_do_list_react_native",
-    "version": "1.0.3",
+    "name": "Minhas Tarefas",
+    "slug": "app_minhas_tarefas",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,7 +21,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.otaviozerotwo.to_do_list",
-      "versionCode": 6,
+      "versionCode": 7,
       "permissions": []
     },
     "web": {
@@ -47,7 +47,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "3ea933f5-519b-4c2a-ae57-209d97dadd73"
+        "projectId": "d7774128-51a9-4226-a7bc-8cff8715ace5"
       }
     }
   }
